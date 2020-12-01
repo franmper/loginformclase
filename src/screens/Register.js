@@ -2,9 +2,16 @@ import React, { useState } from "react";
 import { View, Text, Button, TextInput, Platform, useWindowDimensions, TouchableOpacity, StyleSheet } from "react-native";
 import { colors, width, height, statusBarHeight } from "../utils/theme";
 import { Feather } from "@expo/vector-icons";
+import {useDispatch, useSelector} from 'react-redux'
+import { register } from "../actions/userActions";
+import Loading from "../components/Loading";
 
 const Register = ({navigation}) => {
   const windowsDimensions = useWindowDimensions();
+  const dispatch = useDispatch()
+
+  const userInfo = useSelector(state => state.userLoginReducer)
+  const {loading, error, user} = userInfo;
 
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
@@ -67,10 +74,11 @@ const Register = ({navigation}) => {
   }
 
   const handlerRegister = () => {
-    validateUsername(username)
-    validateEmail(email)
-    validatePassword(password)
-    console.log(username, email, password)
+    
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (
@@ -116,7 +124,7 @@ const Register = ({navigation}) => {
         />
         {isPasswordError ? <Text>{isPasswordErrorMessage}</Text> : null}
       </View>
-      <TouchableOpacity style={{paddingVertical: 20, paddingHorizontal: 40, backgroundColor: colors.black, marginVertical: 20}} onPress={handlerRegister}>
+      <TouchableOpacity style={{paddingVertical: 20, paddingHorizontal: 40, backgroundColor: colors.black, marginVertical: 20}} onPress={() => dispatch(register(username, email, password))}>
         <Text style={{color: colors.beige, fontSize: 20}}>Registrarse</Text>
       </TouchableOpacity>
     </View>

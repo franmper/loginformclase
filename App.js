@@ -1,12 +1,13 @@
 import "react-native-gesture-handler";
 import React from "react";
-import AuthStack from "./src/navigator/AuthStack";
-import { NavigationContainer } from "@react-navigation/native";
+import { Provider } from "react-redux";
+import store from "./src/store";
+import HomeScreen from "./src/HomeScreen";
 
 export default function App() {
   return (
-      <NavigationContainer>
-        <AuthStack />
-      </NavigationContainer>
+    <Provider store={store}>
+      <HomeScreen />
+    </Provider>
   );
 }
